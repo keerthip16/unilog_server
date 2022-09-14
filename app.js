@@ -6,7 +6,9 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var postLogRouter =require('./routes/post-log');
+var getkioskLogRouter = require('./routes/get-kiosk-error.log');
+var getProcessRouter = require('./routes/get-process-metrics');
+var getSystemRouter = require('./routes/get-system-metrics');
 var app = express();
 var cors = require('cors')
 
@@ -28,7 +30,9 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 //User defined routes for our logic
-app.use("/unilog/postLog", postLogRouter);
+app.use("/unilog/log", getkioskLogRouter);
+app.use("/unilog/process", getProcessRouter);
+app.use("/unilog/system", getSystemRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
