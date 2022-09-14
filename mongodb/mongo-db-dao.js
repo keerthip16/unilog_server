@@ -3,7 +3,7 @@
  */
 
 /**
- * Function to save the given payload to mogno db.
+ * Function to save the given payload to mongo db.
  *
  * @param client
  * @param jsonPayload
