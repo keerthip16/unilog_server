@@ -11,8 +11,9 @@ const {getLatestMetrics} = require("../mongodb/mongo-db-dao");
 router.get('/:kioskId', async function (request, response) {
     console.log("REQUEST Params", request.params.kioskId);
     let requestParam = request.params.kioskId;
+    const kioskId = decodeURIComponent(requestParam);
+    
     try {
-        const kioskId = requestParam;
         if (!kioskId) {
             return response.status(400).send("Invalid input kiosk id is required path parameter");
         }

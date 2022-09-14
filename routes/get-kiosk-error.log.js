@@ -11,9 +11,9 @@ const { getLog } = require("../mongodb/mongo-db-dao");
 router.get('/:kioskId/:key', async function (request, response) {
     console.log("REQUEST Params", request.params.kioskId);
     let requestParam = request.params;
+    const kioskId = decodeURIComponent(requestParam.kioskId);
+    const key = decodeURIComponent(requestParam.key);
     try {
-        const kioskId = requestParam.kioskId;
-        const key = requestParam.key;
         if (!kioskId || !key) {
             return response.status(400).send("Invalid input kiosk id and key is required path parameter");
         }
