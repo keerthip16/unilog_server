@@ -9,6 +9,11 @@ var usersRouter = require('./routes/users');
 var getkioskLogRouter = require('./routes/get-kiosk-error.log');
 var getProcessRouter = require('./routes/get-process-metrics');
 var getSystemRouter = require('./routes/get-system-metrics');
+var systemStatsRouter =require('./routes/save-system-stats');
+var processStatsRouter =require('./routes/save-process-stats');
+var logFileStashRouter =require('./routes/save-file-logs');
+
+
 var app = express();
 var cors = require('cors')
 
@@ -33,6 +38,9 @@ app.use('/users', usersRouter);
 app.use("/unilog/log", getkioskLogRouter);
 app.use("/unilog/process", getProcessRouter);
 app.use("/unilog/system", getSystemRouter);
+app.use("/save/stats/system", systemStatsRouter);
+app.use("/save/stats/process", processStatsRouter);
+app.use("/save/log", logFileStashRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
