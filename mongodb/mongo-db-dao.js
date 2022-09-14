@@ -11,13 +11,15 @@
  * @returns {Promise<unknown>}
  */
 function insertPayload (client, jsonPayload, collection) {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
+            let collectionDataList = await client.db("unilog").listCollections().toArray();
+            let collectionNameList = collectionDataList.map(data => data["name"]);
+            if(!collectionNameList.includes(collection)){
+                reject(new Error("Invalid collection"));
+            }
             if(!client){
                 reject(new Error("DB connect exception"));
-            }
-            if(!collection){
-                reject(new Error("Invalid collection"));
             }
             const result = client.db("unilog").collection(collection).insertMany(jsonPayload);
             resolve(result);

@@ -7,6 +7,10 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var postLogRouter =require('./routes/post-log');
+var systemStatsRouter =require('./routes/save-system-stats');
+var processStatsRouter =require('./routes/save-process-stats');
+
+
 var app = express();
 var cors = require('cors')
 
@@ -29,6 +33,8 @@ app.use('/users', usersRouter);
 
 //User defined routes for our logic
 app.use("/unilog/postLog", postLogRouter);
+app.use("/save/stats/system", systemStatsRouter);
+app.use("/save/stats/process", processStatsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
