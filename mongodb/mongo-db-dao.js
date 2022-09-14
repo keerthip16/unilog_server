@@ -28,18 +28,18 @@ function insertPayload (client, jsonPayload, collection) {
     });
 }
 
-function getLatestMetrics (client, kioskId, collection) {
+function getLatestMetrics(client, kioskId, collection) {
     return new Promise((resolve, reject) => {
         try {
-            if(!client){
+            if (!client) {
                 reject(new Error("DB connect exception"));
             }
-            if(!collection){
+            if (!collection) {
                 reject(new Error("Invalid collection"));
             }
-            const query = {"kioskId": kioskId};
+            const query = { "kioskId": kioskId };
             const options = {};
-            const result = client.db("unilog").collection(collection).find(query, options).sort({_id:-1}).limit(1).toArray();
+            const result = client.db("unilog").collection(collection).find(query, options).sort({ _id: -1 }).limit(1).toArray();
             resolve(result);
         } catch (exception) {
             console.error(`MESSAGE : ${exception.message}, ERROR-STACK : ${exception.stack}`);
@@ -47,17 +47,19 @@ function getLatestMetrics (client, kioskId, collection) {
         }
     });
 }
-//TODO
-function getLog (client, kioskId, key) {
+
+function getLog(client, kioskId, key) {
     return new Promise((resolve, reject) => {
         try {
-            if(!client){
+            if (!client) {
                 reject(new Error("DB connect exception"));
             }
-            const query = {$and:[{"kioskId": kioskId},
-                {"key" : key}]}
+            const query = {
+                $and: [{ "kioskId": kioskId },
+                { "key": key }]
+            }
             const options = {};
-            const result = client.db("unilog").collection("collection").findOne(query, options);
+            const result = client.db("unilog").collection("log-file-stash").findOne(query, options);
             resolve(result);
         } catch (exception) {
             console.error(`MESSAGE : ${exception.message}, ERROR-STACK : ${exception.stack}`);
@@ -65,4 +67,5 @@ function getLog (client, kioskId, key) {
         }
     });
 }
-module.exports = {insertPayload, getLatestMetrics, getLog}
+
+module.exports = { insertPayload, getLatestMetrics, getLog }
