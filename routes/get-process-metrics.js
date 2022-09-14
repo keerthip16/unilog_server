@@ -21,9 +21,9 @@ router.get('/:kioskId', async function (request, response) {
                 return response.status(200).send(result);
             }).catch(error => {
                 return response.status(500).send(error);
-            }).catch(error => {
-                return response.status(500).send(error);
             })
+        }).catch(error => {
+            return response.status(500).send(error);
         })
     } catch (error) {
         console.log("error", error)
