@@ -11,7 +11,10 @@ let router = express.Router();
 router.post('/', async function(req, res, next) {
     let requestBody = req.body;
     let dbClient = await getDbClientConnection();
-    let writeResult = await insertPayload(dbClient, Array.of(requestBody), "process-statistics");
+    if(!Array.isArray(requestBody)){
+        requestBody = Array.of(requestBody);
+    }
+    let writeResult = await insertPayload(dbClient, requestBody, "process-statistics");
     res.send(writeResult);
 });
 
