@@ -10,7 +10,7 @@ const { getLog } = require("../mongodb/mongo-db-dao");
  */
 router.get('/:kioskId/:key', async function (request, response) {
     console.log("REQUEST Params", request.params.kioskId);
-    requestParam = request.params;
+    let requestParam = request.params;
     try {
         const kioskId = requestParam.kioskId;
         const key = requestParam.key;
@@ -22,10 +22,10 @@ router.get('/:kioskId/:key', async function (request, response) {
                 return response.status(200).send(result);
             }).catch(error => {
                 return response.status(500).send(error);
-            }).catch(error => {
-                return response.status(500).send(error);
-            })
-        })
+            });
+        }).catch(error => {
+            return response.status(500).send(error);
+        });
     } catch (error) {
         console.log("error", error)
         return response.status(500).send(error);
