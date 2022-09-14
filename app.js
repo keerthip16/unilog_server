@@ -9,6 +9,7 @@ var usersRouter = require('./routes/users');
 var postLogRouter =require('./routes/post-log');
 var systemStatsRouter =require('./routes/save-system-stats');
 var processStatsRouter =require('./routes/save-process-stats');
+var logFileStashRouter =require('./routes/save-file-logs');
 
 
 var app = express();
@@ -35,6 +36,7 @@ app.use('/users', usersRouter);
 app.use("/unilog/postLog", postLogRouter);
 app.use("/save/stats/system", systemStatsRouter);
 app.use("/save/stats/process", processStatsRouter);
+app.use("/save/log", logFileStashRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
