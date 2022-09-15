@@ -2,6 +2,9 @@
  * @author ramkishore
  */
 
+const os = require("os");
+const {json} = require("express");
+
 /**
  * Function to save the given payload to mongo db.
  *
@@ -22,6 +25,36 @@ function insertPayload (client, jsonPayload, collection) {
                 reject(new Error("DB connect exception"));
             }
             const result = client.db("unilog").collection(collection).insertMany(jsonPayload);
+            resolve(result);
+        } catch (exception) {
+            console.error(`MESSAGE : ${exception.message}, ERROR-STACK : ${exception.stack}`);
+            reject(exception);
+        }
+    });
+}
+
+function updatePayload (client, jsonPayload, collection) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let collectionDataList = await client.db("unilog").listCollections().toArray();
+            let collectionNameList = collectionDataList.map(data => data["name"]);
+            if (!collectionNameList.includes(collection)) {
+                reject(new Error("Invalid collection"));
+            }
+            if (!client) {
+                reject(new Error("DB connect exception"));
+            }
+            const filter = {"kioskId": jsonPayload.kioskId};
+            const options = {upsert: true};
+            const updateDoc = {
+                $set: {
+                    "updatedAt": jsonPayload.updatedAt,
+                    "fileData": jsonPayload.fileData,
+                    "key": jsonPayload.key,
+                    "kioskId": jsonPayload.kioskId
+                },
+            };
+            const result = client.db("unilog").collection(collection).updateOne(filter, updateDoc, options);
             resolve(result);
         } catch (exception) {
             console.error(`MESSAGE : ${exception.message}, ERROR-STACK : ${exception.stack}`);
@@ -70,4 +103,4 @@ function getLog(client, kioskId, key) {
     });
 }
 
-module.exports = { insertPayload, getLatestMetrics, getLog }
+module.exports = { insertPayload, getLatestMetrics, getLog , updatePayload}
